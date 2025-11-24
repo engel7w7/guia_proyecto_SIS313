@@ -712,130 +712,15 @@ ls -lh /var/backups/nextcloud_full/
             │                     │
     ┌───────┼─────────────────────┼───────┐
     │       │                     │       │
-┌───┴───┐ ┌─┴──┐ ┌────┐        ┌─┴──┐ ┌──┴──┐
-│ Proxy │ │App │ │ DB │        │Infra│ │Monit│
-│ .214  │ │.196│ │.178│        │.209 │ │     │
-│ :443  │ │:81 │ │:3306       │NFS  │ │     │
-└───────┘ └────┘ └────┘        │DNS  │ └─────┘
-                                │Backup│
-                                └──────┘
+┌───┴───┐ ┌─┴──┐ ┌────┐         ┌─┴──┐ ┌──┴──┐
+│ Proxy │ │App │ │ DB │         │Infr│ │Moni-│
+│ .214  │ │.196│ │.178│         │.209│ │toreo│
+│ :443  │ │:81 │ │:3306         │NFS │ │     │
+└───────┘ └────┘ └────┘         │DNS │ └─────┘
+                                │Back│
+                                │up  │
+                                └────┘
 ```
-
-## Troubleshooting
-
-### Error: "Connection refused"
-
-Diagnóstico:
-
-```bash
-# Verificar estado del firewall
-sudo ufw status
-
-# Verificar servicios activos
-sudo systemctl status nginx
-sudo systemctl status php8.3-fpm
-```
-
-Solución:
-- Revisar reglas de UFW (ver Fase 6)
-- Verificar que los servicios estén corriendo
-- Comprobar que los puertos estén en escucha: `sudo netstat -tlnp`
-
-### Error: "Trusted domain"
-
-Diagnóstico:
-
-```bash
-sudo cat /var/www/nextcloud/config/config.php | grep trusted_domains
-```
-
-Solución:
-
-Editar el archivo:
-
-```bash
-sudo nano /var/www/nextcloud/config/config.php
-```
-
-Añadir el dominio/IP en el array `trusted_domains` (ver Fase 7.4)
-
-### Error: "Can't write to data directory"
-
-Diagnóstico:
-
-```bash
-ls -la /mnt/nextcloud_data
-```
-
-Solución:
-
-```bash
-sudo chown -R www-data:www-data /mnt/nextcloud_data
-sudo chmod 770 /mnt/nextcloud_data
-```
-
-### NFS no monta
-
-Diagnóstico:
-
-```bash
-# En VM infra
-sudo exportfs -v
-
-# En VM app
-showmount -e 192.168.101.3
-```
-
-Solución:
-
-```bash
-# Probar montaje manual
-sudo mount -t nfs 192.168.101.3:/srv/nextcloud/data /mnt/test
-
-# Verificar conectividad
-ping 192.168.101.3
-
-# Verificar firewall permite NFS (puerto 2049)
-sudo ufw status
-```
-
-### Error: Archivos grandes no se suben
-
-Diagnóstico:
-
-Verificar límites en `/etc/php/8.3/fpm/php.ini` y en la configuración de Nginx.
-
-Solución:
-
-Ver Fase 4.3 para ajustar `upload_max_filesize`, `post_max_size` y `client_max_body_size`.
-
-### Túnel SSH se desconecta
-
-Diagnóstico:
-
-El túnel SSH puede cerrarse por inactividad.
-
-Solución:
-
-Agregar opciones al comando SSH:
-
-```powershell
-ssh -J usrproxy@201.131.45.42 adminsrv@192.168.100.214 -L 8443:127.0.0.1:443 -N -o ServerAliveInterval=60
-```
-
-## Checklist de Verificación
-
-- [ ] Todas las VMs tienen conectividad en ambas redes (ens18 y vlan101)
-- [ ] NFS montado correctamente en VM app
-- [ ] MariaDB acepta conexiones desde 192.168.101.4
-- [ ] Certificados SSL copiados a VM proxy
-- [ ] UFW configurado en todas las VMs
-- [ ] Túnel SSH funcional desde cliente
-- [ ] Nextcloud accesible vía `https://nextcloud.rootcode.com.bo:8443`
-- [ ] Archivo de 100MB sube correctamente (prueba límites)
-- [ ] Backup automatizado funciona (verificar en `/var/backups/nextcloud_full`)
-- [ ] DNS resuelve internamente (desde VMs: `dig @192.168.101.3 nextcloud.rootcode.com.bo`)
-
 ## Referencias
 
 - [Documentación Oficial Nextcloud](https://docs.nextcloud.com/)
@@ -845,11 +730,13 @@ ssh -J usrproxy@201.131.45.42 adminsrv@192.168.100.214 -L 8443:127.0.0.1:443 -N 
 
 ## Información del Proyecto
 
-**Curso**: SIS313 - Administración de Redes  
+**Curso**: SIS313 - Infraestructura Plataformas Tecnológicas y Redes
 **Proyecto**: Sentinel-LAN  
-**Versión**: 3.0 (Definitiva)  
+**Versión**: 1.0
 **Fecha**: Noviembre 2025
-
+**Intregrantes**:
+    - Romero Morales Jhojan Erick CICO
+    - Galván Porcel Joel CICO
+    - Mamani Calizaya Jose Mario CICO
+    - Campos Alfaro Dilan Domingo SIS
 ---
-
-**Nota**: Esta guía consolida todas las correcciones realizadas durante la depuración del proyecto. Seguir los pasos en orden secuencial para garantizar una implementación exitosa.
