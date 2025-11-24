@@ -739,7 +739,11 @@ ls -lh /var/backups/nextcloud_full/
 **Fecha**: Noviembre 2025
 ---
 **Intregrantes**:
+    
     - Romero Morales Jhojan Erick CICO
+    
     - Galván Porcel Joel CICO
+    
     - Mamani Calizaya Jose Mario CICO
+    
     - Campos Alfaro Dilan Domingo SIS
