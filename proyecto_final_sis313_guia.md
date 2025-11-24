@@ -1,4 +1,4 @@
-# Proyecto Sentinel-LAN - Guía Completa
+# Proyecto NeoNube - Guía Completa
 
 **Arquitectura de Alta Disponibilidad con Nextcloud**  
 Sistema distribuido en 4 VMs con acceso seguro vía Jump Server
