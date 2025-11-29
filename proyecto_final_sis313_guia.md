@@ -826,6 +826,36 @@ El despliegue se divide en 8 fases secuenciales que deben ejecutarse en orden:
 
 ---
 
+### Conclusiones del Proyecto
+
+1. Diseñamos una Arquitectura en Capas
+En lugar de instalar todo en un solo servidor, decidimos separar las responsabilidades en cuatro máquinas virtuales distintas.
+
+Esto nos permite escalar cada capa de forma independiente. Si nuestra base de datos necesita más recursos, podemos dárselos a la VM DB sin afectar al servidor web (VM App) o al proxy. Hemos evitado el "punto único de fallo" por saturación de recursos.
+
+2. Implementamos Seguridad en Profundidad (Defense in Depth)
+Somos conscientes de que la seguridad perimetral no es suficiente. Por eso, hemos construido múltiples barreras de protección:
+
+Aislamiento de Red: Creamos una red privada (vlan101) para que nuestros datos sensibles viajen ocultos, lejos de la red de gestión pública.
+
+Control de Acceso: No expusimos nuestros servidores directamente a internet. Obligamos a cualquier administrador a pasar por un Jump Server y utilizar túneles SSH, reduciendo drásticamente nuestra superficie de ataque.
+
+Cifrado End-to-End: Asumimos el rol de Autoridad Certificadora (CA) para firmar nuestros propios certificados SSL, garantizando que el tráfico de nuestros usuarios viaje cifrado desde el navegador hasta nuestro servidor.
+
+3. Centralizamos la "Verdad" del Sistema
+Para evitar la fragmentación de datos, establecimos la VM Infra como el corazón de nuestra topología:
+
+Almacenamiento (NFS): Hemos desacoplado los datos de la aplicación. Nuestros archivos no viven en el servidor web, sino que se almacenan de forma persistente y segura en la VM de Infraestructura.
+
+Identidad (DNS): Configuramos nuestro propio servidor DNS interno para que nuestras máquinas se comuniquen por nombre de dominio, simulando un entorno corporativo real y facilitando la gestión de red sin depender de internet.
+
+4. Garantizamos la Operatividad y Resiliencia
+Un sistema profesional debe ser mantenible. Por eso, no dimos el trabajo por terminado hasta asegurar la continuidad del negocio:
+
+Implementamos un sistema de Backups Automatizados que protege tanto la base de datos como los archivos físicos, asegurando que podemos recuperarnos ante desastres.
+
+Integramos Monitoreo en Tiempo Real (Prometheus y Grafana) porque necesitamos "ojos" en nuestra infraestructura para detectar cuellos de botella antes de que afecten a los usuarios.
+
 ## 📄 IX. Anexos
 
 ### A. Información del Proyecto
