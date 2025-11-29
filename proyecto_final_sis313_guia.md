@@ -828,25 +828,10 @@ El despliegue se divide en 8 fases secuenciales que deben ejecutarse en orden:
 
 ## 📄 IX. Anexos
 
-### A. Checklist de Verificación
+### A. Información del Proyecto
 
-- [x] Todas las VMs tienen conectividad en ambas redes (ens18 y vlan101)
-- [x] NFS montado correctamente en VM app
-- [x] MariaDB acepta conexiones desde 192.168.101.4
-- [x] Certificados SSL copiados a VM proxy
-- [x] UFW configurado en todas las VMs
-- [x] Túnel SSH funcional desde cliente
-- [x] Nextcloud accesible vía `https://nextcloud.rootcode.com.bo:8443`
-- [x] Archivo de 100MB+ sube correctamente (prueba límites)
-- [x] Backup automatizado funciona (verificar en `/var/backups/nextcloud_full`)
-- [x] DNS resuelve internamente (desde VMs: `dig @192.168.101.3 nextcloud.rootcode.com.bo`)
-- [x] Prometheus Node Exporter activo en todas las VMs
-- [x] Documentación completa en repositorio GitHub
-
-### B. Información del Proyecto
-
-**Institución:** Universidad Mayor de San Andrés - Facultad de Ciencias Puras y Naturales  
-**Carrera:** Ciencias de la Computación / Sistemas de Información  
+**Institución:** Universidad Real y Pontificia de San Francisco Xavier de Chuquisaca  
+**Carrera:** Ingeniería en Ciencias de la Computación / Ingeniería en Sistemas  
 **Asignatura:** SIS313 - Infraestructura, Plataformas Tecnológicas y Redes  
 **Docente:** Ing. Marcelo Quispe Ortega  
 **Semestre:** 2/2025  
@@ -857,4 +842,4 @@ El despliegue se divide en 8 fases secuenciales que deben ejecutarse en orden:
 
 ---
 
-**© 2025 - Proyecto Sentinel-LAN | SIS313 UMSA**
+**© 2025 - Proyecto Sentinel-LAN | SIS313 USFX**
