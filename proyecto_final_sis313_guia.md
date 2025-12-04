@@ -13,7 +13,7 @@ Sistema distribuido en 4 VMs con acceso seguro vía Jump Server
 | :--- | :--- | :--- |
 | Romero Morales Jhojan Erick | Arquitecto de Infraestructura y Redes | @engel7w7 |
 | Galván Porcel Joel | Ingeniero de Seguridad y Hardening | - |
-| Mamani Calizaya Jose Mario | Administrador de Base de Datos | - |
+| Mamani Calizaya Jose Mario | Administrador de Base de Datos | @JMari01 |
 | Campos Alfaro Dilan Domingo | Especialista en Automatización y Backups | - |
 
 ---
